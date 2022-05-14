@@ -322,13 +322,20 @@ void get_token(FA DFA, string file_line, int &pos, int line_id, token &word) {
     for (auto i: DFA.S_states) {
         cur = i;
     }
-    bool matched = false;
-    while (DFA.f_transition.find(make_pair(cur, char2alpha(file_line[pos]))) != DFA.f_transition.end()) {
-        set<State > set_cur = DFA.f_transition[make_pair(cur, char2alpha(file_line[pos]))];
-        for (auto i: set_cur) {
-            cur = i;
-        }
-        pos++;
+    while (true) {
+        if (DFA.f_transition.find(make_pair(cur, string(1, file_line[pos]))) != DFA.f_transition.end()) {
+            set<State > set_cur = DFA.f_transition[make_pair(cur, string(1, file_line[pos]))];
+            for (auto i: set_cur) {
+                cur = i;
+            }
+            pos++;
+        } else if (DFA.f_transition.find(make_pair(cur, char2alpha(file_line[pos]))) != DFA.f_transition.end()) {
+            set<State > set_cur = DFA.f_transition[make_pair(cur, char2alpha(file_line[pos]))];
+            for (auto i: set_cur) {
+                cur = i;
+            }
+            pos++;
+        } else break;
     }
     if (DFA.E_states.find(cur) != DFA.E_states.end()) {
         word.line_id = line_id;

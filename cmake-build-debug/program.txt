@@ -4,4 +4,7 @@ void main()
 
     c = a + b;
 
+    b = 1e2;
+
+    c = 1+2i;
 }
