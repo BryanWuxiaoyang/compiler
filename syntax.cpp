@@ -107,9 +107,15 @@ private:
     }
 
 public:
+    vector<pair<Symbol*,token>> errors;
+
     explicit Parser(vector<Symbol *> stream, vector<token> tokens) {
         this->stream = std::move(stream);
         this->tokens = std::move(tokens);
+    }
+
+    bool check(){
+        return idx == stream.size();
     }
 
     SyntaxSymbol *parse(Symbol* symbol) {
@@ -145,6 +151,9 @@ public:
                 if(root != nullptr) break;
             }
             if(chosenProduction != nullptr) print(chosenProduction);
+            else{
+                errors.push_back(pair<Symbol*, token>(stream[idx], tokens[idx]));
+            }
             return root;
         }
     }
@@ -397,11 +406,45 @@ void print(Production* production){
     cout << endl;
 }
 
+struct TransferEntry{
+    Symbol* from;
+    Symbol* to;
+    Production* production;
+};
+
+vector<TransferEntry> generateTransferTable(){
+    vector<TransferEntry> ret;
+    for(auto p : symbolTable){
+        Symbol* symbol = p.second;
+        for(Production* production: symbol->productions){
+            for(Symbol* symbol2: *(production->transferSymbols)){
+                TransferEntry entry;
+                entry.from = symbol;
+                entry.to = symbol2;
+                entry.production = production;
+                ret.push_back(entry);
+            }
+        }
+    }
+
+    return ret;
+}
+
+void printTransferTable(){
+    cout << "====================================" << endl;
+    cout << "transfer table: " << endl;
+    vector<TransferEntry> table = generateTransferTable();
+    for(TransferEntry entry: table){
+        cout << entry.from->symbolName << ", " << entry.to->symbolName << " ::= ";
+        print(entry.production);
+//        cout << endl;
+    }
+    cout << "========================================" << endl;
+}
 
 int main() {
     // string lexer_rules_path = "test_lexerRules.txt";
     Regular_grammar G = input_rules2Regular_grammar("lexer_rules.txt");
-    init("production.txt");
     print();
     FA NFA = Regular_grammar2NFA(G);
     FA DFA = NFA2DFA(NFA);
@@ -409,6 +452,9 @@ int main() {
     string program_path = "program.txt";
     vector<token> token_list = get_token_list(DFA, program_path);
     // print_tokens(token_list);
+
+    init("production.txt");
+    printTransferTable();
 
     vector<Symbol*> stream;
     vector<token> tokens;
@@ -429,5 +475,16 @@ int main() {
     cout << endl;
     Parser parser(stream, tokens);
     SyntaxSymbol *syntaxTree = parser.parse(startSymbol);
+    if(parser.check()){
+        cout << "YES" << endl;
+    }
+    else{
+        cout << "NO" << endl;
+        for(auto error: parser.errors){
+            Symbol* symbol = error.first;
+            token tok = error.second;
+            cout << symbol->symbolName << ":" << tok.line_id << endl;
+        }
+    }
     return 0;
 }

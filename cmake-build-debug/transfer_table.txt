@@ -1,0 +1,181 @@
+====================================
+transfer table:
+block, { ::= block = { blockitems }
+blockitem, operator ::= blockitem = stmt
+blockitem, break ::= blockitem = stmt
+blockitem, for ::= blockitem = stmt
+blockitem, continue ::= blockitem = stmt
+blockitem, if ::= blockitem = stmt
+blockitem, return ::= blockitem = stmt
+blockitem, identifier ::= blockitem = stmt
+blockitem, while ::= blockitem = stmt
+blockitem, ( ::= blockitem = stmt
+blockitem, const ::= blockitem = stmt
+blockitem, string ::= blockitem = decl
+blockitem, int ::= blockitem = decl
+blockitem, s_const ::= blockitem = decl
+blockitem, double ::= blockitem = decl
+blockitems, } ::= blockitems = epsilon
+blockitems, epsilon ::= blockitems = epsilon
+blockitems, string ::= blockitems = blockitem blockitems
+blockitems, int ::= blockitems = blockitem blockitems
+blockitems, operator ::= blockitems = blockitem blockitems
+blockitems, break ::= blockitems = blockitem blockitems
+blockitems, for ::= blockitems = blockitem blockitems
+blockitems, continue ::= blockitems = blockitem blockitems
+blockitems, s_const ::= blockitems = blockitem blockitems
+blockitems, if ::= blockitems = blockitem blockitems
+blockitems, return ::= blockitems = blockitem blockitems
+blockitems, identifier ::= blockitems = blockitem blockitems
+blockitems, double ::= blockitems = blockitem blockitems
+blockitems, while ::= blockitems = blockitem blockitems
+blockitems, ( ::= blockitems = blockitem blockitems
+blockitems, const ::= blockitems = blockitem blockitems
+btype, int ::= btype = int
+btype, double ::= btype = double
+btype, string ::= btype = string
+cfuncparams, identifier ::= cfuncparams = value exparams
+cfuncparams, ( ::= cfuncparams = value exparams
+cfuncparams, const ::= cfuncparams = value exparams
+cond, true ::= cond = true
+cond, false ::= cond = false
+cond, operator ::= cond = expression
+cond, identifier ::= cond = expression
+cond, ( ::= cond = expression
+cond, const ::= cond = expression
+constdecl, s_const ::= constdecl = s_const btype constdefs
+constdef, identifier ::= constdef = identifier operator initval
+constdef, identifier ::= constdef = identifier [ constexp ] operator initvalsv
+constdefs, identifier ::= constdefs = constdef exconstdef
+constexp, operator ::= constexp = expression
+constexp, identifier ::= constexp = expression
+constexp, ( ::= constexp = expression
+constexp, const ::= constexp = expression
+constexp, identifier ::= constexp = value
+constexp, ( ::= constexp = value
+constexp, const ::= constexp = value
+decl, s_const ::= decl = constdecl ;
+decl, string ::= decl = vardecl ;
+decl, int ::= decl = vardecl ;
+decl, double ::= decl = vardecl ;
+elstmt, else ::= elstmt = else stmt
+exconstdef, , ::= exconstdef = , constdef exconstdef
+exconstdef, epsilon ::= exconstdef = epsilon
+exconstdef, ; ::= exconstdef = epsilon
+exparams, ) ::= exparams = epsilon
+exparams, epsilon ::= exparams = epsilon
+exparams, , ::= exparams = , value exparams
+expression, identifier ::= expression = value operator value
+expression, ( ::= expression = value operator value
+expression, const ::= expression = value operator value
+expression, operator ::= expression = operator value
+expression, identifier ::= expression = value operator
+expression, ( ::= expression = value operator
+expression, const ::= expression = value operator
+exrtaparam, , ::= exrtaparam = , funcparam exrtaparam
+exrtaparam, ) ::= exrtaparam = epsilon
+exrtaparam, epsilon ::= exrtaparam = epsilon
+extraiv, , ::= extraiv = , initval extraiv
+extraiv, } ::= extraiv = epsilon
+extraiv, epsilon ::= extraiv = epsilon
+exvardef, , ::= exvardef = , vardef exvardef
+exvardef, epsilon ::= exvardef = epsilon
+exvardef, ; ::= exvardef = epsilon
+func, string ::= func = funcid ( ) block
+func, int ::= func = funcid ( ) block
+func, void ::= func = funcid ( ) block
+func, double ::= func = funcid ( ) block
+func, string ::= func = funcid ( funcparams ) { blockitems }
+func, int ::= func = funcid ( funcparams ) { blockitems }
+func, void ::= func = funcid ( funcparams ) { blockitems }
+func, double ::= func = funcid ( funcparams ) { blockitems }
+funcid, void ::= funcid = void identifier
+funcid, string ::= funcid = btype identifier
+funcid, int ::= funcid = btype identifier
+funcid, double ::= funcid = btype identifier
+funcparam, string ::= funcparam = btype identifier
+funcparam, int ::= funcparam = btype identifier
+funcparam, double ::= funcparam = btype identifier
+funcparams, string ::= funcparams = funcparam exrtaparam
+funcparams, int ::= funcparams = funcparam exrtaparam
+funcparams, double ::= funcparams = funcparam exrtaparam
+importfile, include ::= importfile = include identifier importfile
+importfile, string ::= importfile = epsilon
+importfile, int ::= importfile = epsilon
+importfile, s_const ::= importfile = epsilon
+importfile, void ::= importfile = epsilon
+importfile, epsilon ::= importfile = epsilon
+importfile, double ::= importfile = epsilon
+importfile, EOS ::= importfile = epsilon
+initval, operator ::= initval = expression
+initval, identifier ::= initval = expression
+initval, ( ::= initval = expression
+initval, const ::= initval = expression
+initval, identifier ::= initval = value
+initval, ( ::= initval = value
+initval, const ::= initval = value
+initvals, operator ::= initvals = initval extraiv
+initvals, identifier ::= initvals = initval extraiv
+initvals, ( ::= initvals = initval extraiv
+initvals, const ::= initvals = initval extraiv
+initvalsv, { ::= initvalsv = { initvals }
+initvalsv, { ::= initvalsv = { }
+lval, identifier ::= lval = identifier
+lval, identifier ::= lval = identifier [ constexp ]
+paragraph, epsilon ::= paragraph = epsilon
+paragraph, EOS ::= paragraph = epsilon
+paragraph, string ::= paragraph = func paragraph
+paragraph, int ::= paragraph = func paragraph
+paragraph, void ::= paragraph = func paragraph
+paragraph, double ::= paragraph = func paragraph
+paragraph, string ::= paragraph = decl paragraph
+paragraph, int ::= paragraph = decl paragraph
+paragraph, s_const ::= paragraph = decl paragraph
+paragraph, double ::= paragraph = decl paragraph
+paragraph, epsilon ::= paragraph = epsilon
+paragraph, EOS ::= paragraph = epsilon
+program, string ::= program = importfile paragraph
+program, int ::= program = importfile paragraph
+program, s_const ::= program = importfile paragraph
+program, void ::= program = importfile paragraph
+program, epsilon ::= program = importfile paragraph
+program, include ::= program = importfile paragraph
+program, double ::= program = importfile paragraph
+program, EOS ::= program = importfile paragraph
+start, string ::= start = program EOS
+start, int ::= start = program EOS
+start, s_const ::= start = program EOS
+start, void ::= start = program EOS
+start, epsilon ::= start = program EOS
+start, include ::= start = program EOS
+start, double ::= start = program EOS
+start, EOS ::= start = program EOS
+stmt, identifier ::= stmt = lval operator expression ;
+stmt, identifier ::= stmt = lval operator value ;
+stmt, operator ::= stmt = expression ;
+stmt, identifier ::= stmt = expression ;
+stmt, ( ::= stmt = expression ;
+stmt, const ::= stmt = expression ;
+stmt, if ::= stmt = if ( cond ) stmt elstmt
+stmt, while ::= stmt = while ( cond ) stmt
+stmt, for ::= stmt = for ( vardecl ; cond ; expression )
+stmt, break ::= stmt = break ;
+stmt, continue ::= stmt = continue ;
+stmt, return ::= stmt = return ;
+stmt, return ::= stmt = return expression ;
+stmt, return ::= stmt = return value ;
+stmt, identifier ::= stmt = value ;
+stmt, ( ::= stmt = value ;
+stmt, const ::= stmt = value ;
+value, ( ::= value = ( expression )
+value, const ::= value = const
+value, identifier ::= value = identifier
+value, identifier ::= value = identifier ( )
+value, identifier ::= value = identifier ( cfuncparams )
+vardecl, string ::= vardecl = btype vardefs
+vardecl, int ::= vardecl = btype vardefs
+vardecl, double ::= vardecl = btype vardefs
+vardef, identifier ::= vardef = constdef
+vardef, identifier ::= vardef = identifier
+vardefs, identifier ::= vardefs = vardef exvardef
+========================================
