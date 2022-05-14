@@ -1,5 +1,7 @@
 
 //#include "lexer.cpp"
+#include <utility>
+
 #include "lexer.h"
 
 using namespace std;
@@ -46,7 +48,7 @@ public:
     bool flag = false;
     set<Symbol *> *firstSymbols = nullptr;
     set<Symbol *> *followSymbols = nullptr;
-    token token;
+
 public:
     Symbol(bool isTerminal, string symbolName) {
         this->isTerminal = isTerminal;
@@ -79,56 +81,76 @@ public:
 };
 
 
+void print(set<Symbol*>* s);
+void print(vector<Symbol*> v);
+void print();
+void print(Production* production);
+
+map<string, Symbol *> symbolTable;
+Symbol *startSymbol = nullptr;
+
 class Parser {
     int idx = 0;
 
     vector<Symbol*> stream;
+    vector<token> tokens;
 
 private:
-    Production *chooseProduction(Symbol* head, vector<Production *> &productions) {
-        Production* ret = nullptr;
-        for (Production* production: productions){
-            set<Symbol *> *symbols = production->transferSymbols;
-            Symbol *symbol = stream[idx];
-            if (symbols->count(symbol) > 0){
-                ret = production;
-                break;
+    vector<Production *> chooseProduction(Symbol* symbol) {
+        vector<Production*> ret;
+        for (Production* production: symbol->productions){
+            if (production->transferSymbols->count(stream[idx]) > 0){
+                ret.push_back(production);
             }
-        }
-        if(ret == nullptr){
-            cout << "no matched symbol: " << head->symbolName << ", at line: " << stream[idx]->token.line_id << endl;
-            assert(false);
         }
         return ret;
     }
 
 public:
-    explicit Parser(vector<Symbol *> stream) {
+    explicit Parser(vector<Symbol *> stream, vector<token> tokens) {
         this->stream = std::move(stream);
+        this->tokens = std::move(tokens);
     }
 
     SyntaxSymbol *parse(Symbol* symbol) {
         if (symbol->isTerminal) {
-            assert(idx < stream.size());
-            assert(symbol == stream[idx]);
-            return new SyntaxSymbol(symbol, stream[idx++]);
-        } else {
-            SyntaxSymbol *root = new SyntaxSymbol(symbol);
-            root->attachment = symbol;
-
-            Production *production = chooseProduction(symbol, symbol->productions);
-            for (Symbol* nextSymbol : production->tail){
-                SyntaxSymbol *child = parse(nextSymbol);
-                root->addChild(child);
+            if(symbol == symbolTable["epsilon"]){
+                return new SyntaxSymbol(symbol, nullptr);
             }
+            else if(symbol == stream[idx]){
+                return new SyntaxSymbol(symbol, stream[idx++]);
+            }
+            else{
+                return nullptr;
+            }
+        } else {
+            SyntaxSymbol * root = nullptr;
+            int curIdx = idx;
+            Production * chosenProduction = nullptr;
+            for(Production *production: chooseProduction(symbol)){
+//                print(production);
+                root = new SyntaxSymbol(symbol);
+                root->attachment = symbol;
+                chosenProduction = production;
+                for (Symbol* nextSymbol : production->tail){
+                    SyntaxSymbol *child = parse(nextSymbol);
+                    if(child == nullptr) {
+                        root = nullptr;
+                        chosenProduction = nullptr;
+                        idx = curIdx;
+                        break;
+                    }
+                    root->addChild(child);
+                }
+                if(root != nullptr) break;
+            }
+            if(chosenProduction != nullptr) print(chosenProduction);
             return root;
         }
     }
 
 };
 
-map<string, Symbol *> symbolTable;
-Symbol *startSymbol = nullptr;
 
 void clearFlags(){
     for(auto entry: symbolTable){
@@ -183,6 +205,7 @@ void generateFollowSymbols(Symbol *symbol){
     assert(symbol == startSymbol);
     cout << symbol->symbolName << "\t";
     symbol->followSymbols = new set<Symbol*>();
+    symbol->followSymbols->insert(symbolTable["EOS"]);
     _generateFollowSymbols(symbol);
 }
 
@@ -314,9 +337,11 @@ void init(string path) {
 
         head->addProduction(new Production(head, tail));
     }
-//    c2("EOS");
 
     startSymbol = symbolTable[stringStart->symbolName];
+    for(Production* production : startSymbol->productions){
+        production->tail.push_back(c2("EOS"));
+    }
 
     clearFlags();
     generateFirstSymbols(startSymbol);
@@ -326,23 +351,28 @@ void init(string path) {
     generateTransferSymbols(startSymbol);
 }
 
-void printSet(set<Symbol*>* s){
+void print(set<Symbol*>* s){
     for(Symbol* symbol : *s){
         cout << symbol->symbolName << " ";
     }
 }
+void print(vector<Symbol*>* v){
+    for(Symbol* symbol: *v){
+        cout << symbol->symbolName << " ";
+    }
+}
 
-void printSymbolTable(){
+void print(){
     cout << "symbol table:" << endl;
     for(auto entry: symbolTable){
         Symbol* symbol = entry.second;
         cout << symbol->symbolName << " = " << (symbol->isTerminal ? "t" : "nt");
         cout << endl;
         cout << "\t\tfirst symbols: ";
-        printSet(symbol->firstSymbols);
+        print(symbol->firstSymbols);
         cout << endl;
         cout << "\t\tfollow symbols: ";
-        printSet(symbol->followSymbols);
+        print(symbol->followSymbols);
         cout << endl;
 
         for(auto production: symbol->productions){
@@ -352,21 +382,27 @@ void printSymbolTable(){
             }
             cout << endl;
             cout << "\t\tfirst symbols: ";
-            printSet(production->getFirstSymbols());
+            print(production->getFirstSymbols());
             cout << endl;
             cout << "\t\ttransfer symbols: ";
-            printSet(production->transferSymbols);
+            print(production->transferSymbols);
             cout << endl;
         }
     }
     cout << endl;
 }
+void print(Production* production){
+    cout << production->head->symbolName << " = ";
+    print(&production->tail);
+    cout << endl;
+}
+
 
 int main() {
     // string lexer_rules_path = "test_lexerRules.txt";
     Regular_grammar G = input_rules2Regular_grammar("lexer_rules.txt");
     init("production.txt");
-    printSymbolTable();
+    print();
     FA NFA = Regular_grammar2NFA(G);
     FA DFA = NFA2DFA(NFA);
     // print_FA(DFA);
@@ -375,13 +411,15 @@ int main() {
     // print_tokens(token_list);
 
     vector<Symbol*> stream;
+    vector<token> tokens;
     cout << "tokens: ";
     for (const auto& t: token_list){
         Symbol* symbol = getTerminalSymbol(t);
-        symbol->token = t;
         stream.push_back(symbol);
+        tokens.push_back(t);
         cout << "(" << symbol2string(t.symbol) << ", \"" << t.value << "\")\t";
     }
+    stream.push_back(c2("EOS"));
     cout << endl;
 
     cout << "stream: ";
@@ -389,8 +427,7 @@ int main() {
         cout << symbol->symbolName << "\t";
     }
     cout << endl;
-
-    Parser parser(stream);
+    Parser parser(stream, tokens);
     SyntaxSymbol *syntaxTree = parser.parse(startSymbol);
     return 0;
 }

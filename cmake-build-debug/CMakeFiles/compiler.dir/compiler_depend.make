@@ -359,13 +359,24 @@ CMakeFiles/compiler.dir/lexer.cpp.obj: ../lexer.cpp \
 CMakeFiles/compiler.dir/main.cpp.obj: ../main.cpp
 
 CMakeFiles/compiler.dir/syntax.cpp.obj: ../syntax.cpp \
-  ../lexer.h \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/stdc++.h \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cassert \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/utility \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/os_defines.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/cpu_defines.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/pstl/pstl_config.h \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/stl_relops.h \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/stl_pair.h \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/move.h \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/type_traits \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/compare \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/concepts \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/initializer_list \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ext/numeric_traits.h \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/cpp_type_traits.h \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ext/type_traits.h \
+  ../lexer.h \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/stdc++.h \
+  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cassert \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/x86_64-w64-mingw32/include/assert.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/x86_64-w64-mingw32/include/crtdefs.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/x86_64-w64-mingw32/include/corecrt.h \
@@ -402,19 +413,11 @@ CMakeFiles/compiler.dir/syntax.cpp.obj: ../syntax.cpp \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/x86_64-w64-mingw32/include/swprintf.inl \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cmath \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/cpp_type_traits.h \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ext/type_traits.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/x86_64-w64-mingw32/include/math.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/specfun.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/stl_algobase.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/functexcept.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/exception_defines.h \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ext/numeric_traits.h \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/stl_pair.h \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/move.h \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/type_traits \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/compare \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/concepts \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/stl_iterator_base_types.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/iterator_concepts.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/ptr_traits.h \
@@ -511,7 +514,6 @@ CMakeFiles/compiler.dir/syntax.cpp.obj: ../syntax.cpp \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward/binders.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/stl_algo.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/algorithmfwd.h \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/initializer_list \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/stl_heap.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/stl_tempbuf.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/stl_construct.h \
@@ -559,8 +561,6 @@ CMakeFiles/compiler.dir/syntax.cpp.obj: ../syntax.cpp \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cuchar \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/x86_64-w64-mingw32/include/uchar.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/algorithm \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/utility \
-  C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/stl_relops.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/ranges_algo.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/ranges_algobase.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/iterator \

@@ -5,6 +5,7 @@
 <paragraph>::=''
 <paragraph>::=<func><paragraph>
 <paragraph>::=<decl><paragraph>
+<paragraph>::=''
 <func>::=<funcid>'('')'<block>
 <func>::=<funcid>'('<funcparams>')''{'<blockitems>'}'
 <btype>::='int'
@@ -24,8 +25,8 @@
 <blockitems>::=<blockitem><blockitems>
 <blockitem>::=<stmt>
 <blockitem>::=<decl>
-<stmt>::=<lval>'='<expression>';'
-<stmt>::=<lval>'='<value>';'
+<stmt>::=<lval>'operator'<expression>';'
+<stmt>::=<lval>'operator'<value>';'
 <lval>::='identifier'
 <lval>::='identifier''['<constexp>']'
 <stmt>::=<expression>';'
@@ -46,8 +47,8 @@
 <constdefs>::=<constdef><exconstdef>
 <exconstdef>::=','<constdef><exconstdef>
 <exconstdef>::=''
-<constdef>::='identifier''='<initval>
-<constdef>::='identifier''['<constexp>']''='<initvalsv>
+<constdef>::='identifier''operator'<initval>
+<constdef>::='identifier''['<constexp>']''operator'<initvalsv>
 <constexp>::=<expression>
 <constexp>::=<value>
 <vardecl>::=<btype><vardefs>
