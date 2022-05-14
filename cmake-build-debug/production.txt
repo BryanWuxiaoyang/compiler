@@ -72,11 +72,5 @@
 <expression>::=<value>'operator'<value>
 <value>::='identifier''('')'
 <value>::='identifier''('<cfuncparams>')'
-<expression>::=<unaryexp>
-<unaryexp>::=<unaryop><value>
-<unaryexp>::=<selfop><value>
-<unaryexp>::=<value><selfop>
-<selfop>::='++'
-<selfop>::='--'
-<unaryop>::='!'
-<unaryop>::='~'
+<expression>::='operator'<value>
+<expression>::=<value>'operator'

@@ -25,7 +25,7 @@ public:
 public:
     bool flag = false;
     vector<set<Symbol *>*> firstSymbolsList;
-    set<Symbol *> *transferTokens = nullptr;
+    set<Symbol *> *transferSymbols = nullptr;
 
     Production(Symbol *head, vector<Symbol *> tail) {
         this->head = head;
@@ -88,7 +88,7 @@ private:
     Production *chooseProduction(Symbol* head, vector<Production *> &productions) {
         Production* ret = nullptr;
         for (Production* production: productions){
-            set<Symbol *> *symbols = production->transferTokens;
+            set<Symbol *> *symbols = production->transferSymbols;
             Symbol *symbol = stream[idx];
             if (symbols->count(symbol) > 0){
                 ret = production;
@@ -146,7 +146,7 @@ void generateFirstSymbols(Production*);
 void generateFirstSymbols(Symbol *symbol){
     if(symbol->flag) return;
     symbol->flag = true;
-    cout << symbol->symbolName << endl;
+//    cout << symbol->symbolName << endl;
     symbol->firstSymbols = new set<Symbol*>();
     if(symbol->isTerminal) symbol->firstSymbols->insert(symbol);
     else{
@@ -183,25 +183,51 @@ void generateFollowSymbols(Symbol *symbol){
     assert(symbol == startSymbol);
     cout << symbol->symbolName << "\t";
     symbol->followSymbols = new set<Symbol*>();
-    symbol->followSymbols->insert(symbolTable["EOS"]);
     _generateFollowSymbols(symbol);
 }
 
 void _generateFollowSymbols(Symbol *symbol){
     if(symbol->flag) return;
     symbol->flag = true;
-
+    cout << symbol->symbolName << endl;
     for(Production* production: symbol->productions){
         for(int i = 0; i < production->tail.size(); i++){
             Symbol* sym = production->tail[i];
             if(sym->followSymbols == nullptr) sym->followSymbols = new set<Symbol*>();
-
             set<Symbol*>* follows = production->getFirstSymbols(i + 1);
             sym->followSymbols->insert(follows->begin(), follows->end());
             if(follows->empty() || follows->count(symbolTable["epsilon"]) > 0){
                 sym->followSymbols->insert(symbol->followSymbols->begin(), symbol->followSymbols->end());
             }
+
+            _generateFollowSymbols(sym);
         }
+    }
+}
+
+void generateTransferSymbols(Symbol*);
+void generateTransferSymbols(Production*);
+
+void generateTransferSymbols(Symbol* symbol){
+    if(symbol->flag) return;
+    symbol->flag = true;
+    for (Production* production: symbol->productions){
+        generateTransferSymbols(production);
+    }
+}
+
+void generateTransferSymbols(Production* production){
+    if(production->flag) return;
+    production->flag = true;
+
+    production->transferSymbols = new set<Symbol*>();
+    production->transferSymbols->insert(production->getFirstSymbols()->begin(), production->getFirstSymbols()->end());
+    if(production->getFirstSymbols()->count(symbolTable["epsilon"]) > 0){
+        production->transferSymbols->insert(production->head->followSymbols->begin(), production->head->followSymbols->end());
+    }
+
+    for(Symbol* symbol: production->tail){
+        generateTransferSymbols(symbol);
     }
 }
 
@@ -223,29 +249,6 @@ Symbol *c2(const string &name) {
     return create(name, true);
 }
 
-// void init() {
-//     // S = A B
-//     // A = <->
-//     // B = <+>
-//     c1("S")->addProduction(new Production(c1("S"), {c1("A"), c1("B")}));
-//     c1("A")->addProduction(new Production(c1("A"), {c2("-")}));
-//     c1("B")->addProduction(new Production(c1("B"), {c2("+")}));
-//
-//
-//     for (auto it = symbolTable.begin(); it != symbolTable.end(); ++it) {
-//         Symbol *symbol = it->second;
-//         symbol->generate();
-//     }
-//     for (auto it = symbolTable.begin(); it != symbolTable.end(); ++it) {
-//         Symbol *symbol = it->second;
-//         for (auto it2 = symbol->productions.begin(); it2 != symbol->productions.end(); ++it2) {
-//             Production *production = *it2;
-//             production->generate();
-//         }
-//     }
-//
-//     startSymbol = symbolTable["S"];
-// }
 Symbol* getTerminalSymbol(token t){
 //        KEYWORD, IDENTIFIER, CONST, LIMITER, OPERATOR,
     Symbol* ret = nullptr;
@@ -257,13 +260,13 @@ Symbol* getTerminalSymbol(token t){
             ret = symbolTable["identifier"];
             break;
         case CONST:
-            ret = symbolTable[t.value];
+            ret = symbolTable["const"];
             break;
         case LIMITER:
             ret = symbolTable[t.value];
             break;
         case OPERATOR:
-            ret = symbolTable[t.value];
+            ret = symbolTable["operator"];
             break;
         default:
             assert(0);
@@ -311,7 +314,7 @@ void init(string path) {
 
         head->addProduction(new Production(head, tail));
     }
-    c2("EOS");
+//    c2("EOS");
 
     startSymbol = symbolTable[stringStart->symbolName];
 
@@ -319,44 +322,67 @@ void init(string path) {
     generateFirstSymbols(startSymbol);
     clearFlags();
     generateFollowSymbols(startSymbol);
+    clearFlags();
+    generateTransferSymbols(startSymbol);
+}
+
+void printSet(set<Symbol*>* s){
+    for(Symbol* symbol : *s){
+        cout << symbol->symbolName << " ";
+    }
 }
 
 void printSymbolTable(){
     cout << "symbol table:" << endl;
     for(auto entry: symbolTable){
         Symbol* symbol = entry.second;
-        cout << symbol->symbolName << " = " << (symbol->isTerminal ? "t" : "nt") << endl;
+        cout << symbol->symbolName << " = " << (symbol->isTerminal ? "t" : "nt");
+        cout << endl;
+        cout << "\t\tfirst symbols: ";
+        printSet(symbol->firstSymbols);
+        cout << endl;
+        cout << "\t\tfollow symbols: ";
+        printSet(symbol->followSymbols);
+        cout << endl;
 
         for(auto production: symbol->productions){
-            cout << '\t';
+            cout << "\t" << symbol->symbolName << " = ";
             for(auto elementSymbol: production->tail){
                 cout << ' ' << elementSymbol->symbolName;
             }
             cout << endl;
+            cout << "\t\tfirst symbols: ";
+            printSet(production->getFirstSymbols());
+            cout << endl;
+            cout << "\t\ttransfer symbols: ";
+            printSet(production->transferSymbols);
+            cout << endl;
         }
     }
+    cout << endl;
 }
 
 int main() {
     // string lexer_rules_path = "test_lexerRules.txt";
     Regular_grammar G = input_rules2Regular_grammar("lexer_rules.txt");
+    init("production.txt");
+    printSymbolTable();
     FA NFA = Regular_grammar2NFA(G);
     FA DFA = NFA2DFA(NFA);
     // print_FA(DFA);
-    string program_path = "test_program.txt";
+    string program_path = "program.txt";
     vector<token> token_list = get_token_list(DFA, program_path);
     // print_tokens(token_list);
 
-
-    init("test_production.txt");
-    printSymbolTable();
-
     vector<Symbol*> stream;
+    cout << "tokens: ";
     for (const auto& t: token_list){
         Symbol* symbol = getTerminalSymbol(t);
         symbol->token = t;
         stream.push_back(symbol);
+        cout << "(" << symbol2string(t.symbol) << ", \"" << t.value << "\")\t";
     }
+    cout << endl;
 
     cout << "stream: ";
     for(Symbol* symbol: stream){

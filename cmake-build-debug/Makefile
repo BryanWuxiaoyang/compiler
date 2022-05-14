@@ -176,30 +176,6 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\compiler.dir\build.make CMakeFiles/compiler.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-parser.obj: parser.cpp.obj
-.PHONY : parser.obj
-
-# target to build an object file
-parser.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\compiler.dir\build.make CMakeFiles/compiler.dir/parser.cpp.obj
-.PHONY : parser.cpp.obj
-
-parser.i: parser.cpp.i
-.PHONY : parser.i
-
-# target to preprocess a source file
-parser.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\compiler.dir\build.make CMakeFiles/compiler.dir/parser.cpp.i
-.PHONY : parser.cpp.i
-
-parser.s: parser.cpp.s
-.PHONY : parser.s
-
-# target to generate assembly for a file
-parser.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\compiler.dir\build.make CMakeFiles/compiler.dir/parser.cpp.s
-.PHONY : parser.cpp.s
-
 syntax.obj: syntax.cpp.obj
 .PHONY : syntax.obj
 
@@ -239,9 +215,6 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
-	@echo ... parser.obj
-	@echo ... parser.i
-	@echo ... parser.s
 	@echo ... syntax.obj
 	@echo ... syntax.i
 	@echo ... syntax.s

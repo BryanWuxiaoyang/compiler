@@ -59,6 +59,7 @@ struct token {
     int line_id;
 };
 
+std::string symbol2string(SYMBOLS s);
 
 Regular_grammar input_rules2Regular_grammar(std::string path);
 

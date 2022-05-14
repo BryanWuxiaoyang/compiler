@@ -358,8 +358,6 @@ CMakeFiles/compiler.dir/lexer.cpp.obj: ../lexer.cpp \
 
 CMakeFiles/compiler.dir/main.cpp.obj: ../main.cpp
 
-CMakeFiles/compiler.dir/parser.cpp.obj: ../parser.cpp
-
 CMakeFiles/compiler.dir/syntax.cpp.obj: ../syntax.cpp \
   ../lexer.h \
   C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/stdc++.h \
@@ -1425,7 +1423,5 @@ C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32
 C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ranges:
 
 C:/Program\ Files/JetBrains/CLion\ 2021.3.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/span:
-
-../parser.cpp:
 
 ../syntax.cpp:

@@ -10,7 +10,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Projects/compiler/lexer.cpp" "CMakeFiles/compiler.dir/lexer.cpp.obj" "gcc" "CMakeFiles/compiler.dir/lexer.cpp.obj.d"
   "C:/Projects/compiler/main.cpp" "CMakeFiles/compiler.dir/main.cpp.obj" "gcc" "CMakeFiles/compiler.dir/main.cpp.obj.d"
-  "C:/Projects/compiler/parser.cpp" "CMakeFiles/compiler.dir/parser.cpp.obj" "gcc" "CMakeFiles/compiler.dir/parser.cpp.obj.d"
   "C:/Projects/compiler/syntax.cpp" "CMakeFiles/compiler.dir/syntax.cpp.obj" "gcc" "CMakeFiles/compiler.dir/syntax.cpp.obj.d"
   )
 

@@ -1,0 +1,458 @@
+symbol table:
+! = t
+		first symbols: !
+		follow symbols: identifier ( const
+( = t
+		first symbols: (
+		follow symbols: identifier ( ) int double string true false const operator ++ -- ! ~
+) = t
+		first symbols: )
+		follow symbols: identifier epsilon ( ) { } , if else const operator ++ -- ! ~
+++ = t
+		first symbols: ++
+		follow symbols: identifier ( const
+, = t
+		first symbols: ,
+		follow symbols: identifier ( int double string const ++ -- ! ~
+-- = t
+		first symbols: --
+		follow symbols: identifier ( const
+; = t
+		first symbols: ;
+		follow symbols: identifier epsilon ( } else true false const ++ -- ! ~
+= = t
+		first symbols: =
+		follow symbols: identifier ( { const ++ -- ! ~
+[ = t
+		first symbols: [
+		follow symbols: identifier ( const ++ -- ! ~
+] = t
+		first symbols: ]
+		follow symbols: =
+block = nt
+		first symbols: {
+		follow symbols: epsilon }
+	block =  { blockitems }
+		first symbols: {
+		transfer symbols: {
+blockitem = nt
+		first symbols: identifier ( int double string if while for break continue return s_const const ++ -- ! ~
+		follow symbols: epsilon }
+	blockitem =  stmt
+		first symbols: identifier ( if while for break continue return const ++ -- ! ~
+		transfer symbols: identifier ( if while for break continue return const ++ -- ! ~
+	blockitem =  decl
+		first symbols: int double string s_const
+		transfer symbols: int double string s_const
+blockitems = nt
+		first symbols: identifier epsilon ( int double string if while for break continue return s_const const ++ -- ! ~
+		follow symbols: }
+	blockitems =  epsilon
+		first symbols: epsilon
+		transfer symbols: epsilon }
+	blockitems =  blockitem blockitems
+		first symbols: identifier ( int double string if while for break continue return s_const const ++ -- ! ~
+		transfer symbols: identifier ( int double string if while for break continue return s_const const ++ -- ! ~
+break = t
+		first symbols: break
+		follow symbols: ;
+btype = nt
+		first symbols: int double string
+		follow symbols: identifier
+	btype =  int
+		first symbols: int
+		transfer symbols: int
+	btype =  double
+		first symbols: double
+		transfer symbols: double
+	btype =  string
+		first symbols: string
+		transfer symbols: string
+cfuncparams = nt
+		first symbols: identifier ( const
+		follow symbols: )
+	cfuncparams =  value exparams
+		first symbols: identifier ( const
+		transfer symbols: identifier ( const
+cond = nt
+		first symbols: identifier ( true false const ++ -- ! ~
+		follow symbols: ) ;
+	cond =  true
+		first symbols: true
+		transfer symbols: true
+	cond =  false
+		first symbols: false
+		transfer symbols: false
+	cond =  expression
+		first symbols: identifier ( const ++ -- ! ~
+		transfer symbols: identifier ( const ++ -- ! ~
+const = t
+		first symbols: const
+		follow symbols: operator
+constdecl = nt
+		first symbols: s_const
+		follow symbols: ;
+	constdecl =  s_const btype constdefs
+		first symbols: s_const
+		transfer symbols: s_const
+constdef = nt
+		first symbols: identifier
+		follow symbols: epsilon , ;
+	constdef =  identifier = initval
+		first symbols: identifier
+		transfer symbols: identifier
+	constdef =  identifier [ constexp ] = initvalsv
+		first symbols: identifier
+		transfer symbols: identifier
+constdefs = nt
+		first symbols: identifier
+		follow symbols: ;
+	constdefs =  constdef exconstdef
+		first symbols: identifier
+		transfer symbols: identifier
+constexp = nt
+		first symbols: identifier ( const ++ -- ! ~
+		follow symbols: ]
+	constexp =  expression
+		first symbols: identifier ( const ++ -- ! ~
+		transfer symbols: identifier ( const ++ -- ! ~
+	constexp =  value
+		first symbols: identifier ( const
+		transfer symbols: identifier ( const
+continue = t
+		first symbols: continue
+		follow symbols: ;
+decl = nt
+		first symbols: int double string s_const
+		follow symbols: epsilon } int double string void
+	decl =  constdecl ;
+		first symbols: s_const
+		transfer symbols: s_const
+	decl =  vardecl ;
+		first symbols: int double string
+		transfer symbols: int double string
+double = t
+		first symbols: double
+		follow symbols: identifier
+else = t
+		first symbols: else
+		follow symbols: identifier ( const ++ -- ! ~
+elstmt = nt
+		first symbols: else
+		follow symbols: epsilon } else
+	elstmt =  else stmt
+		first symbols: else
+		transfer symbols: else
+epsilon = t
+		first symbols: epsilon
+		follow symbols: epsilon ) } int double string void ; s_const
+exconstdef = nt
+		first symbols: epsilon ,
+		follow symbols: ;
+	exconstdef =  , constdef exconstdef
+		first symbols: ,
+		transfer symbols: ,
+	exconstdef =  epsilon
+		first symbols: epsilon
+		transfer symbols: epsilon ;
+exparams = nt
+		first symbols: epsilon ,
+		follow symbols: )
+	exparams =  epsilon
+		first symbols: epsilon
+		transfer symbols: epsilon )
+	exparams =  , value exparams
+		first symbols: ,
+		transfer symbols: ,
+expression = nt
+		first symbols: identifier ( const ++ -- ! ~
+		follow symbols: epsilon ) , ; ]
+	expression =  value operator value
+		first symbols: identifier ( const
+		transfer symbols: identifier ( const
+	expression =  unaryexp
+		first symbols: identifier ( const ++ -- ! ~
+		transfer symbols: identifier ( const ++ -- ! ~
+exrtaparam = nt
+		first symbols: epsilon ,
+		follow symbols: )
+	exrtaparam =  , funcparam exrtaparam
+		first symbols: ,
+		transfer symbols: ,
+	exrtaparam =  epsilon
+		first symbols: epsilon
+		transfer symbols: epsilon )
+extraiv = nt
+		first symbols: epsilon ,
+		follow symbols: }
+	extraiv =  , initval extraiv
+		first symbols: ,
+		transfer symbols: ,
+	extraiv =  epsilon
+		first symbols: epsilon
+		transfer symbols: epsilon }
+exvardef = nt
+		first symbols: epsilon ,
+		follow symbols: ;
+	exvardef =  , vardef exvardef
+		first symbols: ,
+		transfer symbols: ,
+	exvardef =  epsilon
+		first symbols: epsilon
+		transfer symbols: epsilon ;
+false = t
+		first symbols: false
+		follow symbols: )
+for = t
+		first symbols: for
+		follow symbols: (
+func = nt
+		first symbols: int double string void
+		follow symbols: epsilon
+	func =  funcid ( ) block
+		first symbols: int double string void
+		transfer symbols: int double string void
+	func =  funcid ( funcparams ) { blockitems }
+		first symbols: int double string void
+		transfer symbols: int double string void
+funcid = nt
+		first symbols: int double string void
+		follow symbols: (
+	funcid =  void identifier
+		first symbols: void
+		transfer symbols: void
+	funcid =  btype identifier
+		first symbols: int double string
+		transfer symbols: int double string
+funcparam = nt
+		first symbols: int double string
+		follow symbols: epsilon ) ,
+	funcparam =  btype identifier
+		first symbols: int double string
+		transfer symbols: int double string
+funcparams = nt
+		first symbols: int double string
+		follow symbols: )
+	funcparams =  funcparam exrtaparam
+		first symbols: int double string
+		transfer symbols: int double string
+identifier = t
+		first symbols: identifier
+		follow symbols: epsilon ( ) int double string void , = ; [ s_const operator
+if = t
+		first symbols: if
+		follow symbols: (
+importfile = nt
+		first symbols: include epsilon
+		follow symbols: epsilon int double string void s_const
+	importfile =  include identifier importfile
+		first symbols: include
+		transfer symbols: include
+	importfile =  epsilon
+		first symbols: epsilon
+		transfer symbols: epsilon int double string void s_const
+include = t
+		first symbols: include
+		follow symbols: identifier
+initval = nt
+		first symbols: identifier ( const ++ -- ! ~
+		follow symbols: epsilon } , ;
+	initval =  expression
+		first symbols: identifier ( const ++ -- ! ~
+		transfer symbols: identifier ( const ++ -- ! ~
+	initval =  value
+		first symbols: identifier ( const
+		transfer symbols: identifier ( const
+initvals = nt
+		first symbols: identifier ( const ++ -- ! ~
+		follow symbols: }
+	initvals =  initval extraiv
+		first symbols: identifier ( const ++ -- ! ~
+		transfer symbols: identifier ( const ++ -- ! ~
+initvalsv = nt
+		first symbols: {
+		follow symbols: epsilon , ;
+	initvalsv =  { initvals }
+		first symbols: {
+		transfer symbols: {
+	initvalsv =  { }
+		first symbols: {
+		transfer symbols: {
+int = t
+		first symbols: int
+		follow symbols: identifier
+lval = nt
+		first symbols: identifier
+		follow symbols: =
+	lval =  identifier
+		first symbols: identifier
+		transfer symbols: identifier
+	lval =  identifier [ constexp ]
+		first symbols: identifier
+		transfer symbols: identifier
+operator = t
+		first symbols: operator
+		follow symbols: identifier ( const
+paragraph = nt
+		first symbols: epsilon int double string void s_const
+		follow symbols:
+	paragraph =  epsilon
+		first symbols: epsilon
+		transfer symbols: epsilon
+	paragraph =  func paragraph
+		first symbols: int double string void
+		transfer symbols: int double string void
+	paragraph =  decl paragraph
+		first symbols: int double string s_const
+		transfer symbols: int double string s_const
+program = nt
+		first symbols: include epsilon int double string void s_const
+		follow symbols:
+	program =  importfile paragraph
+		first symbols: include epsilon int double string void s_const
+		transfer symbols: include epsilon int double string void s_const
+return = t
+		first symbols: return
+		follow symbols: identifier ( ; const ++ -- ! ~
+s_const = t
+		first symbols: s_const
+		follow symbols: int double string
+selfop = nt
+		first symbols: ++ --
+		follow symbols: identifier ( ) ] const
+	selfop =  ++
+		first symbols: ++
+		transfer symbols: ++
+	selfop =  --
+		first symbols: --
+		transfer symbols: --
+start = nt
+		first symbols: include epsilon int double string void s_const
+		follow symbols:
+	start =  program
+		first symbols: include epsilon int double string void s_const
+		transfer symbols: include epsilon int double string void s_const
+stmt = nt
+		first symbols: identifier ( if while for break continue return const ++ -- ! ~
+		follow symbols: epsilon } else
+	stmt =  lval = expression ;
+		first symbols: identifier
+		transfer symbols: identifier
+	stmt =  lval = value ;
+		first symbols: identifier
+		transfer symbols: identifier
+	stmt =  expression ;
+		first symbols: identifier ( const ++ -- ! ~
+		transfer symbols: identifier ( const ++ -- ! ~
+	stmt =  block
+		first symbols:
+		transfer symbols:
+	stmt =  if ( cond ) stmt elstmt
+		first symbols: if
+		transfer symbols: if
+	stmt =  while ( cond ) stmt
+		first symbols: while
+		transfer symbols: while
+	stmt =  for ( vardecl ; cond ; expression )
+		first symbols: for
+		transfer symbols: for
+	stmt =  break ;
+		first symbols: break
+		transfer symbols: break
+	stmt =  continue ;
+		first symbols: continue
+		transfer symbols: continue
+	stmt =  return ;
+		first symbols: return
+		transfer symbols: return
+	stmt =  return expression ;
+		first symbols: return
+		transfer symbols: return
+	stmt =  return value ;
+		first symbols: return
+		transfer symbols: return
+	stmt =  value ;
+		first symbols: identifier ( const
+		transfer symbols: identifier ( const
+string = t
+		first symbols: string
+		follow symbols: identifier
+true = t
+		first symbols: true
+		follow symbols: )
+unaryexp = nt
+		first symbols: identifier ( const ++ -- ! ~
+		follow symbols: ) ]
+	unaryexp =  unaryop value
+		first symbols: ! ~
+		transfer symbols: ! ~
+	unaryexp =  selfop value
+		first symbols: ++ --
+		transfer symbols: ++ --
+	unaryexp =  value selfop
+		first symbols: identifier ( const
+		transfer symbols: identifier ( const
+unaryop = nt
+		first symbols: ! ~
+		follow symbols: identifier ( const
+	unaryop =  !
+		first symbols: !
+		transfer symbols: !
+	unaryop =  ~
+		first symbols: ~
+		transfer symbols: ~
+value = nt
+		first symbols: identifier ( const
+		follow symbols: epsilon ) , ; ] operator ++ --
+	value =  ( expression )
+		first symbols: (
+		transfer symbols: (
+	value =  const
+		first symbols: const
+		transfer symbols: const
+	value =  identifier
+		first symbols: identifier
+		transfer symbols: identifier
+	value =  identifier ( )
+		first symbols: identifier
+		transfer symbols: identifier
+	value =  identifier ( cfuncparams )
+		first symbols: identifier
+		transfer symbols: identifier
+vardecl = nt
+		first symbols: int double string
+		follow symbols: ;
+	vardecl =  btype vardefs
+		first symbols: int double string
+		transfer symbols: int double string
+vardef = nt
+		first symbols: identifier
+		follow symbols: epsilon , ;
+	vardef =  constdef
+		first symbols: identifier
+		transfer symbols: identifier
+	vardef =  identifier
+		first symbols: identifier
+		transfer symbols: identifier
+vardefs = nt
+		first symbols: identifier
+		follow symbols: ;
+	vardefs =  vardef exvardef
+		first symbols: identifier
+		transfer symbols: identifier
+void = t
+		first symbols: void
+		follow symbols: identifier
+while = t
+		first symbols: while
+		follow symbols: (
+{ = t
+		first symbols: {
+		follow symbols: identifier epsilon ( } int double string if while for break continue return s_const const ++ -- ! ~
+} = t
+		first symbols: }
+		follow symbols: epsilon } , ;
+~ = t
+		first symbols: ~
+		follow symbols: identifier ( const
+

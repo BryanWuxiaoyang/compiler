@@ -1,1 +1,1 @@
-import "t.c"
+#include <t.c> ;

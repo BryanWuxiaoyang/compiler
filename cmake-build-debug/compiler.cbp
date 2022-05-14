@@ -91,12 +91,6 @@
 		<Unit filename="C:/Projects/compiler/main.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="C:/Projects/compiler/parser.cpp">
-			<Option target="compiler"/>
-		</Unit>
-		<Unit filename="C:/Projects/compiler/parser.h">
-			<Option target="compiler"/>
-		</Unit>
 		<Unit filename="C:/Projects/compiler/syntax.cpp">
 			<Option target="compiler"/>
 		</Unit>
