@@ -1,0 +1,10 @@
+void main()
+{
+    int a, b, c;
+
+    c = a + b;
+
+    a = 12e3;
+
+    c = 1+2i;
+}

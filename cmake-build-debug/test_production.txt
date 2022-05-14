@@ -1,0 +1,5 @@
+[start]::=<program>
+<program>::=<importfile><paragraph>
+<importfile>::='include''identifier'<importfile>
+<importfile>::=''
+<paragraph>::=''

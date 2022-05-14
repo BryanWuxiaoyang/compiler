@@ -1,0 +1,7 @@
+[keyword]::='int'
+[identifier]::='letter'
+[identifier]::='letter'<L>
+<L>::='letter'<L>
+<L>::='number'<L>
+<L>::='letter'
+<L>::='number'
